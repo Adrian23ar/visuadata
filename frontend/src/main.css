@@ -1,0 +1,33 @@
+/* Importaciones base de Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definición de variables de color */
+@layer base {
+  /*
+   * Paleta para MODO CLARO (por defecto)
+   * Usamos un gris muy claro para el fondo para no cansar la vista.
+  */
+  :root {
+    --color-primary-bg: #F0F2F5;       /* Fondo principal - Gris claro */
+    --color-secondary-bg: #FFFFFF;     /* Fondo de paneles/tarjetas - Blanco */
+    --color-primary-accent: #0D9488;    /* Acento principal - Un teal más oscuro para mejor contraste */
+    --color-secondary-accent: #E5E7EB; /* Acento secundario / bordes - Gris */
+    --color-primary-text: #111827;     /* Texto principal - Casi negro */
+    --color-secondary-text: #6B7280;   /* Texto secundario - Gris oscuro */
+  }
+
+  /*
+   * Paleta para MODO OSCURO
+   * Se activa cuando la clase .dark está presente en el HTML.
+  */
+  .dark {
+    --color-primary-bg: #181A1B;       /* Fondo principal - El que ya te gustaba */
+    --color-secondary-bg: #252A2D;     /* Fondo de paneles/tarjetas */
+    --color-primary-accent: #00C896;    /* Acento principal - El verde brillante original */
+    --color-secondary-accent: #4A4F53; /* Acento secundario / bordes */
+    --color-primary-text: #F1F1F1;     /* Texto principal */
+    --color-secondary-text: #A9A9A9;   /* Texto secundario */
+  }
+}

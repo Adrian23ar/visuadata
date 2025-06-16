@@ -1,0 +1,20 @@
+# Dependencias de Node.js
+/node_modules
+/frontend/node_modules
+/backend/node_modules
+
+# Archivos de build y logs
+/dist
+/frontend/dist
+/npm-debug.log*
+/yarn-error.log*
+/pnpm-debug.log*
+
+# Archivos de entorno (¡MUY IMPORTANTE!)
+.env
+.env.*
+!.env.example
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
