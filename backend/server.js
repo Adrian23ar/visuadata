@@ -16,7 +16,7 @@ const app = express();
 
 // --- Middlewares Esenciales ---
 app.use(cors({
-  origin: 'https://visuadata-backend.onrender.com', // <-- Pega tu URL de Vercel aquí
+  origin: 'https://visuadata-frontend.vercel.app', // <-- Pega tu URL de Vercel aquí
   credentials: true,
 }));
 app.use(cookieParser());
