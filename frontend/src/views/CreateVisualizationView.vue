@@ -4,7 +4,7 @@ import { useRoute, RouterLink } from 'vue-router';
 import api from '../services/api';
 import BarChart from '../components/charts/BarChart.vue';
 import LineChart from '../components/charts/LineChart.vue';
-import DataTable from '../components/charts/DataTable.vue';
+import DataTable from '../components/charts/Datatable.vue';
 import { ArrowLeftIcon } from '@heroicons/vue/24/solid';
 
 // --- Estado del Componente ---
