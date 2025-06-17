@@ -35,9 +35,9 @@ export const register = async (req, res) => {
     // 6. Enviar el token en una cookie HttpOnly (más seguro)
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Solo en https en producción
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000, // 1 día en milisegundos
+      secure: true, // Siempre 'true' en producción (Render/Vercel usan HTTPS)
+      sameSite: 'none', // <-- LA SOLUCIÓN: Permite que la cookie se envíe entre dominios
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     // 7. Enviar la respuesta
@@ -50,51 +50,51 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-        // 1. Validar que los datos no estén vacíos
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Todos los campos son requeridos.' });
-        }
-
-        // 2. Buscar al usuario por email
-        const userCheck = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (userCheck.rows.length === 0) {
-            return res.status(404).json({ message: 'Credenciales inválidas.' }); // Mensaje genérico
-        }
-
-        const user = userCheck.rows[0];
-
-        // 3. Comparar la contraseña enviada con la hasheada en la BD
-        const isMatch = await bcrypt.compare(password, user.password_hash);
-        if (!isMatch) {
-            return res.status(404).json({ message: 'Credenciales inválidas.' });
-        }
-
-        // 4. Crear y enviar el token (igual que en el registro)
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: '1d',
-        });
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-
-        // 5. Enviar la respuesta sin el hash de la contraseña
-        delete user.password_hash;
-        res.status(200).json(user);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error interno del servidor.' });
+    // 1. Validar que los datos no estén vacíos
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Todos los campos son requeridos.' });
     }
+
+    // 2. Buscar al usuario por email
+    const userCheck = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (userCheck.rows.length === 0) {
+      return res.status(404).json({ message: 'Credenciales inválidas.' }); // Mensaje genérico
+    }
+
+    const user = userCheck.rows[0];
+
+    // 3. Comparar la contraseña enviada con la hasheada en la BD
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    if (!isMatch) {
+      return res.status(404).json({ message: 'Credenciales inválidas.' });
+    }
+
+    // 4. Crear y enviar el token (igual que en el registro)
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true, // Siempre 'true' en producción (Render/Vercel usan HTTPS)
+      sameSite: 'none', // <-- LA SOLUCIÓN: Permite que la cookie se envíe entre dominios
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    // 5. Enviar la respuesta sin el hash de la contraseña
+    delete user.password_hash;
+    res.status(200).json(user);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+  }
 };
 
 export const logout = (req, res) => {
-    res.clearCookie('token');
-    res.status(200).json({ message: 'Sesión cerrada exitosamente.' });
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Sesión cerrada exitosamente.' });
 };
