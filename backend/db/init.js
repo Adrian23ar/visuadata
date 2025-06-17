@@ -1,3 +1,4 @@
+// backend/db/init.js
 import db from './index.js';
 
 const createTables = async () => {

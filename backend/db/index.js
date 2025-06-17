@@ -1,3 +1,4 @@
+// backend/db/index.js
 import pg from 'pg';
 import 'dotenv/config';
 
@@ -11,6 +12,9 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
+  ssl: { // <-- AÑADIR ESTE OBJETO
+    rejectUnauthorized: false
+  }
 });
 
 // Exportamos una función 'query' que podremos usar en toda la aplicación
