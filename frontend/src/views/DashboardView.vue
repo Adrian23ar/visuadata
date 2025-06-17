@@ -5,7 +5,7 @@ import api from '../services/api';
 import { GridLayout, GridItem } from 'vue3-grid-layout-next';
 import BarChart from '../components/charts/BarChart.vue';
 import LineChart from '../components/charts/LineChart.vue';
-import DataTable from '../components/charts/DataTable.vue';
+import DataTable from '../components/charts/Datatable.vue';
 import ConfirmationModal from '../components/ConfirmationModal.vue';
 import { TrashIcon } from '@heroicons/vue/24/outline';
 
